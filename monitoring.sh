@@ -15,19 +15,17 @@ MAC=$(ip link show | awk '$1 ~ /link/ && $2 !~ /0+\:0+\:0+\:0+\:0+\:0+/ {print $
 CMD_SUDO=$(journalctl | grep sudo | wc -l)
 
 
-echo "Broadcast message from $USER ($(date)):"
-echo
-echo "Architecture      : $ARCH"
-echo "CPU physical      : $PCPU_NB"
-echo "vCPU              : $RAM"
-echo "Memory Usage      : $DISK"
-echo "CPU load  : $CPU_USAGE"
-echo "Last boot : $LAST_BOOT"
-echo "LVM use           : $LVM"
-echo "Connexions TCP    : $TCP"
-echo "User log  : $IPV4"
-echo "Network           : $MAC"
-echo "Sudo              : $CMD_SUDO"
+wall "Architecture      : $ARCH\
+	CPU physical      : $PCPU_NB\
+	vCPU              : $RAM\
+	Memory Usage      : $DISK\
+	CPU load  : $CPU_USAGE\
+	Last boot : $LAST_BOOT\
+	LVM use           : $LVM\
+	Connexions TCP    : $TCP\
+	User log  : $IPV4\
+	Network           : $MAC\
+	Sudo              : $CMD_SUDO"
 
 # Broadcast message from root@wil (tty1) (Sun Apr 25 15:45:00 2021):
 #Architecture: Linux wil 4.19.0-16-amd64 #1 SMP Debian 4.19.181-1 (2021-03-19) x86_64 GNU/Linux
