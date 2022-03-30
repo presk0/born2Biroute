@@ -1,0 +1,232 @@
+#dduser https://opensourcelibs.com/lib/42-born2beroot#step-1-installing-sudo
+# Machine name : ndionis42
+# passwd : Jen'aipaspeurdelaro0T
+# Full Name : ndionis
+# Born2birou+e
+
+# Passphrase Encryption : Lemeilleurdemarre[...]
+
+# /etc/ssh/sshd_config : 	Port 4242
+# 							PermitRootLogin no
+#							sudo service ssh status
+
+# /etc/ufw/ufw.conf : 	ENABLED=yes
+
+# password policy :
+# sudo vi /etc/login.defs
+
+# /etc/pam.d/common-password
+
+# apt install sudo
+# adduser $USERNAME sudo
+# or usermod -aG sudo <username>
+# useradd <username> + passwd
+#
+sudo vi /etc/sudoers.d/mon_fichier_sudoers
+# 
+# Defaults        passwd_tries=3
+# Defaults        badpass_message="Custom badpass message"
+# 
+# sudo mkdir /var/log/sudo
+# Defaults        logfile="/var/log/sudo/my_logs"
+# Defaults        log_input,log_output
+# Defaults        iolog_dir="/var/log/sudo"
+# Defaults        requiretty
+# Defaults        secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"
+
+# sudo apt install openssh-server
+#sudo vi /etc/ssh/sshd_config
+
+# sed -i 0 's/#Port 22/Port4242/' /etc/ssh/sshd_config
+# sed -i 0 's/#PermitRootLogin\ prohibit-password/PermitRootLogin\ no/' /etc/ssh/sshd_config
+
+# sudo service ssh status
+# or systemctl status ssh
+
+sudo apt install ufw
+sudo ufw enable
+sudo ufw allow 4242
+
+# SSH into your virtual machine using Port 4242 via ssh <username>@<ip-address> -p 4242.
+# ssh <username>@<ip-address> -p 4242
+
+sudo vi /etc/login.defs
+sed -i 0 '/PASS_MAX_DAYS*99999/PASS_MAX_DAYS\	30/'
+sed -i 0 '/PASS_MIN_DAYS*0/PASS_MIN_DAYS\	2/'
+sed -i 0 '/PASS_WARN_AGE*$/PASS_WARN_AGE\	7/'
+
+sudo apt install libpam-pwquality
+# /etc/security/pwquality.conf
+# sudo vi /etc/pam.d/common-password
+
+# Verify newly-created user's password expiry information via sudo chage -l <username>.
+# sudo chage -l <username>
+
+addgroup user42
+adduser new_user_2 user42
+crontab -u root -e
+
+echo "*/10 * * * * sh" ~/script
+
+crontab -u root -l # Check root's scheduled cron jobs via sudo crontab -u root -l.
+
+
+apt install lighttpd
+ufw allow 80
+apt install mariadb-server
+mysql_secure_installation
+Enter current password for root (enter for none): #Just press Enter (do not confuse database root with system root)
+
+mariadb
+
+# Create new database user and grant them full privileges on the newly-created database via GRANT ALL ON <database-name>.* TO '<username-2>'@'localhost' IDENTIFIED BY '<password-2>' WITH GRANT OPTION;.
+# 
+# MariaDB [(none)]> GRANT ALL ON <database-name>.* TO '<username-2>'@'localhost' IDENTIFIED BY '<password-2>' WITH GRANT OPTION;
+# 
+# Flush the privileges via FLUSH PRIVILEGES;.
+# 
+# MariaDB [(none)]> FLUSH PRIVILEGES;
+# 
+# Exit the MariaDB shell via exit.
+# 
+# MariaDB [(none)]> exit
+# 
+# Verify whether database user was successfully created by logging in to the MariaDB console via mariadb -u <username-2> -p.
+# 
+# $ mariadb -u <username-2> -p
+# Enter password: <password-2>
+# MariaDB [(none)]>
+# 
+# Confirm whether database user has access to the database via SHOW DATABASES;.
+# 
+# MariaDB [(none)]> SHOW DATABASES;
+# +--------------------+
+# | Database           |
+# +--------------------+
+# | <database-name>    |
+# | information_schema |
+# +--------------------+
+# 
+# Exit the MariaDB shell via exit.
+# 
+# MariaDB [(none)]> exit
+# 
+# Step 3: Installing PHP
+# 
+# Install php-cgi & php-mysql via sudo apt install php-cgi php-mysql.
+# 
+# $ sudo apt install php-cgi php-mysql
+# 
+# Verify whether php-cgi & php-mysql was successfully installed via dpkg -l | grep php.
+# 
+# $ dpkg -l | grep php
+# 
+# Step 4: Downloading & Configuring WordPress
+# 
+# Install wget via sudo apt install wget.
+# 
+# $ sudo apt install wget
+# 
+# Download WordPress to /var/www/html via sudo wget http://wordpress.org/latest.tar.gz -P /var/www/html.
+# 
+# $ sudo wget http://wordpress.org/latest.tar.gz -P /var/www/html
+# 
+# Extract downloaded content via sudo tar -xzvf /var/www/html/latest.tar.gz.
+# 
+# $ sudo tar -xzvf /var/www/html/latest.tar.gz
+# 
+# Remove tarball via sudo rm /var/www/html/latest.tar.gz.
+# 
+# $ sudo rm /var/www/html/latest.tar.gz
+# 
+# Copy content of /var/www/html/wordpress to /var/www/html via sudo cp -r /var/www/html/wordpress/* /var/www/html.
+# 
+# $ sudo cp -r /var/www/html/wordpress/* /var/www/html
+# 
+# Remove /var/www/html/wordpress via sudo rm -rf /var/www/html/wordpress
+# 
+# $ sudo rm -rf /var/www/html/wordpress
+# 
+# Create WordPress configuration file from its sample via sudo cp /var/www/html/wp-config-sample.php /var/www/html/wp-config.php.
+# 
+# $ sudo cp /var/www/html/wp-config-sample.php /var/www/html/wp-config.php
+# 
+# Configure WordPress to reference previously-created MariaDB database & user via sudo vi /var/www/html/wp-config.php.
+# 
+# $ sudo vi /var/www/html/wp-config.php
+# 
+# Replace the below
+# 
+# 23 define( 'DB_NAME', 'database_name_here' );^M
+# 26 define( 'DB_USER', 'username_here' );^M
+# 29 define( 'DB_PASSWORD', 'password_here' );^M
+# 
+# with:
+# 
+# 23 define( 'DB_NAME', '<database-name>' );^M
+# 26 define( 'DB_USER', '<username-2>' );^M
+# 29 define( 'DB_PASSWORD', '<password-2>' );^M
+# 
+# Step 5: Configuring Lighttpd
+# 
+# Enable below modules via sudo lighty-enable-mod fastcgi; sudo lighty-enable-mod fastcgi-php; sudo service lighttpd force-reload.
+# 
+# $ sudo lighty-enable-mod fastcgi
+# $ sudo lighty-enable-mod fastcgi-php
+# $ sudo service lighttpd force-reload
+# 
+# #3: File Transfer Protocol (FTP)
+# Step 1: Installing & Configuring FTP
+# 
+# Install FTP via sudo apt install vsftpd.
+# 
+# $ sudo apt install vsftpd
+# 
+# Verify whether vsftpd was successfully installed via dpkg -l | grep vsftpd.
+# 
+# $ dpkg -l | grep vsftpd
+# 
+# Allow incoming connections using Port 21 via sudo ufw allow 21.
+# 
+# $ sudo ufw allow 21
+# 
+# Configure vsftpd via sudo vi /etc/vsftpd.conf.
+# 
+# $ sudo vi /etc/vsftpd.conf
+# 
+# To enable any form of FTP write command, uncomment below line:
+# 
+# 31 #write_enable=YES
+# 
+# To set root folder for FTP-connected user to /home/<username>/ftp, add below lines:
+# 
+# $ sudo mkdir /home/<username>/ftp
+# $ sudo mkdir /home/<username>/ftp/files
+# $ sudo chown nobody:nogroup /home/<username>/ftp
+# $ sudo chmod a-w /home/<username>/ftp
+# <~~~>
+# user_sub_token=$USER
+# local_root=/home/$USER/ftp
+# <~~~>
+# 
+# To prevent user from accessing files or using commands outside the directory tree, uncomment below line:
+# 
+# 114 #chroot_local_user=YES
+# 
+# To whitelist FTP, add below lines:
+# 
+# $ sudo vi /etc/vsftpd.userlist
+# $ echo <username> | sudo tee -a /etc/vsftpd.userlist
+# <~~~>
+# userlist_enable=YES
+# userlist_file=/etc/vsftpd.userlist
+# userlist_deny=NO
+# <~~~>
+# 
+# Step 2: Connecting to Server via FTP
+# 
+# FTP into your virtual machine via ftp <ip-address>.
+# 
+# $ ftp <ip-address>
+# 
+# Terminate FTP session at any time via CTRL + D.
