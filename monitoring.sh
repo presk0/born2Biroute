@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ARCH=$(uname -pr)
+ARCH=$(uname -a)
 PCPU_NB=$(nproc)
 VCPU_NB=$(grep "processor" /proc/cpuinfo | wc -l)
 CPU_USAGE=$(top -bn1 | awk '/Cpu/ {printf "%.2f %%\n", $2 + $6}')
